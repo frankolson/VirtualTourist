@@ -60,14 +60,54 @@
 			children = (
 				BE0FD4DA26C86D8B00EB0ABB /* AppDelegate.swift */,
 				BE0FD4DC26C86D8B00EB0ABB /* SceneDelegate.swift */,
-				BE0FD4DE26C86D8B00EB0ABB /* ViewController.swift */,
-				BE0FD4E026C86D8B00EB0ABB /* Main.storyboard */,
-				BE0FD4E626C86D8E00EB0ABB /* Assets.xcassets */,
-				BE0FD4E826C86D8E00EB0ABB /* LaunchScreen.storyboard */,
+				BE0FD4F126C86DB000EB0ABB /* Models */,
+				BE0FD4F426C86DD800EB0ABB /* Views */,
+				BE0FD4F326C86DCD00EB0ABB /* Controllers */,
+				BE0FD4F526C86DE700EB0ABB /* Assets */,
+				BE0FD4F626C86E0F00EB0ABB /* Storyboards */,
 				BE0FD4EB26C86D8E00EB0ABB /* Info.plist */,
-				BE0FD4E326C86D8B00EB0ABB /* VirtualTourist.xcdatamodeld */,
 			);
 			path = VirtualTourist;
+			sourceTree = "<group>";
+		};
+		BE0FD4F126C86DB000EB0ABB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BE0FD4E326C86D8B00EB0ABB /* VirtualTourist.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BE0FD4F326C86DCD00EB0ABB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BE0FD4DE26C86D8B00EB0ABB /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BE0FD4F426C86DD800EB0ABB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BE0FD4F526C86DE700EB0ABB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				BE0FD4E626C86D8E00EB0ABB /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		BE0FD4F626C86E0F00EB0ABB /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				BE0FD4E026C86D8B00EB0ABB /* Main.storyboard */,
+				BE0FD4E826C86D8E00EB0ABB /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
