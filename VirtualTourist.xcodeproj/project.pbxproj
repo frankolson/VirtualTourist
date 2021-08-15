@@ -15,6 +15,7 @@
 		BE0FD4E726C86D8E00EB0ABB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE0FD4E626C86D8E00EB0ABB /* Assets.xcassets */; };
 		BE0FD4EA26C86D8E00EB0ABB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0FD4E826C86D8E00EB0ABB /* LaunchScreen.storyboard */; };
 		BE0FD4F826C8B7C400EB0ABB /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0FD4F726C8B7C400EB0ABB /* PhotoAlbumViewController.swift */; };
+		BE0FD4FA26C8C0A700EB0ABB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0FD4F926C8C0A700EB0ABB /* DataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		BE0FD4E926C86D8E00EB0ABB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE0FD4EB26C86D8E00EB0ABB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE0FD4F726C8B7C400EB0ABB /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
+		BE0FD4F926C8C0A700EB0ABB /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				BE0FD4E326C86D8B00EB0ABB /* VirtualTourist.xcdatamodeld */,
+				BE0FD4F926C8C0A700EB0ABB /* DataController.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0FD4E526C86D8B00EB0ABB /* VirtualTourist.xcdatamodeld in Sources */,
+				BE0FD4FA26C8C0A700EB0ABB /* DataController.swift in Sources */,
 				BE0FD4DF26C86D8B00EB0ABB /* TravelLocationsMapViewController.swift in Sources */,
 				BE0FD4DB26C86D8B00EB0ABB /* AppDelegate.swift in Sources */,
 				BE0FD4F826C8B7C400EB0ABB /* PhotoAlbumViewController.swift in Sources */,
