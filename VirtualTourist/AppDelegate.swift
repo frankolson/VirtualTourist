@@ -17,11 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         dataController.load()
         
-        // Add data controller to the app entry point
-        let navigationController = window?.rootViewController as! UINavigationController
-        let travelLocationsMapViewController = navigationController.topViewController as! TravelLocationsMapViewController
-        travelLocationsMapViewController.dataController = dataController
-        
         return true
     }
 
