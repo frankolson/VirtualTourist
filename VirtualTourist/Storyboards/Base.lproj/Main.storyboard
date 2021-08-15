@@ -28,7 +28,6 @@
         <!--TravelLocationsMapViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" userLabel="TravelLocationsMapViewController" customClass="TravelLocationsMapViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -49,9 +48,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="n9C-H7-hv1"/>
                     <connections>
+                        <outlet property="mapView" destination="bS7-bW-Xpx" id="tel-gQ-fza"/>
                         <segue destination="QhL-5S-bXe" kind="show" id="SGu-Vi-MXF"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="20" y="94"/>
         </scene>
@@ -107,6 +108,10 @@
                     <navigationItem key="navigationItem" id="XLc-je-BvX">
                         <barButtonItem key="backBarButtonItem" title="OK" id="14P-yJ-74e"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="a6I-yU-eAk" id="Gha-Mq-h6U"/>
+                        <outlet property="photoCollectionView" destination="FIp-Mb-9ss" id="xpC-zQ-oQZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MlU-pV-H4c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
