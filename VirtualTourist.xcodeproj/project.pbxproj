@@ -19,6 +19,7 @@
 		BE0FD4FF26C9DCE600EB0ABB /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0FD4FE26C9DCE600EB0ABB /* PhotoCollectionViewCell.swift */; };
 		BE0FD50226C9E61E00EB0ABB /* Pin+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0FD50126C9E61E00EB0ABB /* Pin+Extensions.swift */; };
 		BE0FD50726C9E7D100EB0ABB /* FlickrAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0FD50626C9E7D100EB0ABB /* FlickrAPIClient.swift */; };
+		BEF7360026C9F37A0070A033 /* Secrets.xcconfig-example in Resources */ = {isa = PBXBuildFile; fileRef = BEF735FF26C9F37A0070A033 /* Secrets.xcconfig-example */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		BE0FD4FE26C9DCE600EB0ABB /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		BE0FD50126C9E61E00EB0ABB /* Pin+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+Extensions.swift"; sourceTree = "<group>"; };
 		BE0FD50626C9E7D100EB0ABB /* FlickrAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrAPIClient.swift; sourceTree = "<group>"; };
+		BEF735FD26C9F2A90070A033 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		BEF735FF26C9F37A0070A033 /* Secrets.xcconfig-example */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Secrets.xcconfig-example"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +76,7 @@
 				BE0FD4F126C86DB000EB0ABB /* Models */,
 				BE0FD4F426C86DD800EB0ABB /* Views */,
 				BE0FD4F326C86DCD00EB0ABB /* Controllers */,
-				BE0FD50826C9EA5D00EB0ABB /* Config */,
+				BEF735FC26C9F2860070A033 /* Config */,
 				BE0FD4F526C86DE700EB0ABB /* Assets */,
 				BE0FD4F626C86E0F00EB0ABB /* Storyboards */,
 				BE0FD4EB26C86D8E00EB0ABB /* Info.plist */,
@@ -158,9 +161,11 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
-		BE0FD50826C9EA5D00EB0ABB /* Config */ = {
+		BEF735FC26C9F2860070A033 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				BEF735FD26C9F2A90070A033 /* Secrets.xcconfig */,
+				BEF735FF26C9F37A0070A033 /* Secrets.xcconfig-example */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -223,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0FD4EA26C86D8E00EB0ABB /* LaunchScreen.storyboard in Resources */,
+				BEF7360026C9F37A0070A033 /* Secrets.xcconfig-example in Resources */,
 				BE0FD4E726C86D8E00EB0ABB /* Assets.xcassets in Resources */,
 				BE0FD4E226C86D8B00EB0ABB /* Main.storyboard in Resources */,
 			);
@@ -271,6 +277,7 @@
 /* Begin XCBuildConfiguration section */
 		BE0FD4EC26C86D8E00EB0ABB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF735FD26C9F2A90070A033 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -332,6 +339,7 @@
 		};
 		BE0FD4ED26C86D8E00EB0ABB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF735FD26C9F2A90070A033 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
