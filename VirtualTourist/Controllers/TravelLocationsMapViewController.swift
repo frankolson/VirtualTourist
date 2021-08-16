@@ -19,11 +19,13 @@ class TravelLocationsMapViewController: UIViewController {
     
     var dataController: DataController!
     var pins: [Pin] = []
+    var currentPin: Pin?
     
     // MARK: Lifecycle events
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         
         setupLongPressGestureRecognizer()
         loadPinFromCoreData()
@@ -49,6 +51,30 @@ class TravelLocationsMapViewController: UIViewController {
         pin.longitude = coordinate.longitude
         pin.latitude = coordinate.latitude
         dataController.saveContext(.viewContext)
+    }
+    
+    // MARK: Finding pin
+    
+    func findPinFromCoordinate(_ coordinate: CLLocationCoordinate2D) -> Pin? {
+        for pin in pins {
+            let latitude = coordinate.latitude
+            let longitude = coordinate.longitude
+            
+            if pin.latitude == latitude && pin.longitude == longitude {
+                return pin
+            }
+        }
+        
+        return nil
+    }
+    
+    // MARK: Networking
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showPhotoAlbum" {
+            let controller = segue.destination as! PhotoAlbumViewController
+            controller.pin = currentPin
+        }
     }
 
 }
@@ -114,6 +140,13 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
         }
         
         return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let coordinate = view.annotation?.coordinate {
+            currentPin = findPinFromCoordinate(coordinate)
+            performSegue(withIdentifier: "showPhotoAlbum", sender: self)
+        }
     }
     
 }
