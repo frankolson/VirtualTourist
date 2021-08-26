@@ -20,6 +20,10 @@
 		BE0FD50226C9E61E00EB0ABB /* Pin+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0FD50126C9E61E00EB0ABB /* Pin+Extensions.swift */; };
 		BE0FD50726C9E7D100EB0ABB /* FlickrAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0FD50626C9E7D100EB0ABB /* FlickrAPIClient.swift */; };
 		BEF7360026C9F37A0070A033 /* Secrets.xcconfig-example in Resources */ = {isa = PBXBuildFile; fileRef = BEF735FF26C9F37A0070A033 /* Secrets.xcconfig-example */; };
+		BEF7360326CB34E10070A033 /* LocationSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF7360226CB34E10070A033 /* LocationSearchResponse.swift */; };
+		BEF7360526CB35ED0070A033 /* FlickrPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF7360426CB35ED0070A033 /* FlickrPhoto.swift */; };
+		BEF7360726CB372F0070A033 /* FlickrResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF7360626CB372F0070A033 /* FlickrResponse.swift */; };
+		BEF7360926CB38DF0070A033 /* Photo+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF7360826CB38DF0070A033 /* Photo+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +43,10 @@
 		BE0FD50626C9E7D100EB0ABB /* FlickrAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrAPIClient.swift; sourceTree = "<group>"; };
 		BEF735FD26C9F2A90070A033 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		BEF735FF26C9F37A0070A033 /* Secrets.xcconfig-example */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Secrets.xcconfig-example"; sourceTree = "<group>"; };
+		BEF7360226CB34E10070A033 /* LocationSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResponse.swift; sourceTree = "<group>"; };
+		BEF7360426CB35ED0070A033 /* FlickrPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrPhoto.swift; sourceTree = "<group>"; };
+		BEF7360626CB372F0070A033 /* FlickrResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrResponse.swift; sourceTree = "<group>"; };
+		BEF7360826CB38DF0070A033 /* Photo+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				BE0FD50126C9E61E00EB0ABB /* Pin+Extensions.swift */,
+				BEF7360826CB38DF0070A033 /* Photo+Extensions.swift */,
 			);
 			path = ManagedObjectExtensions;
 			sourceTree = "<group>";
@@ -157,6 +166,9 @@
 		BE0FD50526C9E7B100EB0ABB /* Responses */ = {
 			isa = PBXGroup;
 			children = (
+				BEF7360226CB34E10070A033 /* LocationSearchResponse.swift */,
+				BEF7360426CB35ED0070A033 /* FlickrPhoto.swift */,
+				BEF7360626CB372F0070A033 /* FlickrResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -244,11 +256,15 @@
 				BE0FD4E526C86D8B00EB0ABB /* VirtualTourist.xcdatamodeld in Sources */,
 				BE0FD50226C9E61E00EB0ABB /* Pin+Extensions.swift in Sources */,
 				BE0FD4FA26C8C0A700EB0ABB /* DataController.swift in Sources */,
+				BEF7360526CB35ED0070A033 /* FlickrPhoto.swift in Sources */,
 				BE0FD4DF26C86D8B00EB0ABB /* TravelLocationsMapViewController.swift in Sources */,
+				BEF7360726CB372F0070A033 /* FlickrResponse.swift in Sources */,
 				BE0FD4DB26C86D8B00EB0ABB /* AppDelegate.swift in Sources */,
+				BEF7360326CB34E10070A033 /* LocationSearchResponse.swift in Sources */,
 				BE0FD50726C9E7D100EB0ABB /* FlickrAPIClient.swift in Sources */,
 				BE0FD4FF26C9DCE600EB0ABB /* PhotoCollectionViewCell.swift in Sources */,
 				BE0FD4F826C8B7C400EB0ABB /* PhotoAlbumViewController.swift in Sources */,
+				BEF7360926CB38DF0070A033 /* Photo+Extensions.swift in Sources */,
 				BE0FD4DD26C86D8B00EB0ABB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

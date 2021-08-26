@@ -74,6 +74,7 @@ class TravelLocationsMapViewController: UIViewController {
         if segue.identifier == "showPhotoAlbum" {
             let controller = segue.destination as! PhotoAlbumViewController
             controller.pin = currentPin
+            controller.dataController = dataController
         }
     }
 
@@ -143,9 +144,15 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("Pin tapped")
         if let coordinate = view.annotation?.coordinate {
             currentPin = findPinFromCoordinate(coordinate)
-            performSegue(withIdentifier: "showPhotoAlbum", sender: self)
+            if currentPin != nil {
+                print("pin found")
+                performSegue(withIdentifier: "showPhotoAlbum", sender: self)
+            } else {
+                print("pin not found")
+            }
         }
     }
     

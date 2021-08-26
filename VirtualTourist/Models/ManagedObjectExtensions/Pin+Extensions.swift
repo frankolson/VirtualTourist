@@ -10,14 +10,6 @@ import CoreData
 
 extension Pin {
     
-    public func fetchAndCreatePhotos() {
-        
-    }
-    
-    private func fetchPhotos(completion: (() -> Void)) {
-        // something
-        
-        completion()
-    }
+    // something
 
 }

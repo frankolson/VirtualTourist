@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -79,6 +80,10 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <activityIndicatorView key="backgroundView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" id="19U-7y-WW4">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="574"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCollectionViewCell" id="wIY-Wu-VEN" customClass="PhotoCollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -87,13 +92,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DT3-hn-QiM">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DT3-hn-QiM">
                                                     <rect key="frame" x="-56" y="0.0" width="240" height="128"/>
                                                 </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="RmC-xv-lGt">
-                                                    <rect key="frame" x="54" y="54" width="20" height="20"/>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="RmC-xv-lGt">
+                                                    <rect key="frame" x="45.5" y="45.5" width="37" height="37"/>
                                                 </activityIndicatorView>
                                             </subviews>
+                                            <color key="backgroundColor" name="AccentColor"/>
                                             <constraints>
                                                 <constraint firstItem="RmC-xv-lGt" firstAttribute="centerX" secondItem="97d-Ua-xNw" secondAttribute="centerX" id="HaB-Qn-S89"/>
                                                 <constraint firstItem="DT3-hn-QiM" firstAttribute="width" secondItem="97d-Ua-xNw" secondAttribute="width" multiplier="1.875" id="KfB-hP-9Et"/>
@@ -110,25 +116,46 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Riy-2A-VYr">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="I3y-P0-Dfg"/>
+                                    <barButtonItem title="New Collection" style="plain" id="rT9-Zc-Q3L">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Ypx-eH-ZUq">
+                                            <rect key="frame" x="155" y="12" width="104" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="New Collection"/>
+                                            <connections>
+                                                <action selector="newCollectionTapped:" destination="QhL-5S-bXe" eventType="touchUpInside" id="JJx-GB-CSX"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="oON-tN-2aK"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Rhc-0d-jUn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Riy-2A-VYr" firstAttribute="leading" secondItem="Rhc-0d-jUn" secondAttribute="leading" id="0i9-ir-EEi"/>
                             <constraint firstItem="Rhc-0d-jUn" firstAttribute="trailing" secondItem="a6I-yU-eAk" secondAttribute="trailing" id="1L8-UN-CCg"/>
                             <constraint firstItem="FIp-Mb-9ss" firstAttribute="top" secondItem="a6I-yU-eAk" secondAttribute="bottom" id="AwP-gD-eJd"/>
+                            <constraint firstItem="Rhc-0d-jUn" firstAttribute="trailing" secondItem="Riy-2A-VYr" secondAttribute="trailing" id="FGH-rW-5RU"/>
                             <constraint firstItem="FIp-Mb-9ss" firstAttribute="leading" secondItem="Rhc-0d-jUn" secondAttribute="leading" id="JTs-Oj-PM0"/>
                             <constraint firstItem="Rhc-0d-jUn" firstAttribute="trailing" secondItem="FIp-Mb-9ss" secondAttribute="trailing" id="MuL-a2-dC9"/>
                             <constraint firstItem="a6I-yU-eAk" firstAttribute="top" secondItem="Rhc-0d-jUn" secondAttribute="top" id="O16-Ck-vcW"/>
                             <constraint firstItem="a6I-yU-eAk" firstAttribute="centerX" secondItem="Rhc-0d-jUn" secondAttribute="centerX" id="WVE-EM-5Nj"/>
                             <constraint firstItem="a6I-yU-eAk" firstAttribute="leading" secondItem="Rhc-0d-jUn" secondAttribute="leading" id="b2k-Tf-3rV"/>
                             <constraint firstItem="FIp-Mb-9ss" firstAttribute="centerX" secondItem="Rhc-0d-jUn" secondAttribute="centerX" id="t0G-Tz-Tux"/>
+                            <constraint firstItem="Rhc-0d-jUn" firstAttribute="bottom" secondItem="Riy-2A-VYr" secondAttribute="bottom" id="yei-U2-goT"/>
                             <constraint firstItem="Rhc-0d-jUn" firstAttribute="bottom" secondItem="FIp-Mb-9ss" secondAttribute="bottom" id="zH8-wg-YVq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XLc-je-BvX">
-                        <barButtonItem key="backBarButtonItem" title="OK" id="14P-yJ-74e"/>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="14P-yJ-74e"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="19U-7y-WW4" id="XG3-n6-BDz"/>
                         <outlet property="mapView" destination="a6I-yU-eAk" id="Gha-Mq-h6U"/>
                         <outlet property="photoCollectionView" destination="FIp-Mb-9ss" id="xpC-zQ-oQZ"/>
                     </connections>
@@ -139,6 +166,9 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
