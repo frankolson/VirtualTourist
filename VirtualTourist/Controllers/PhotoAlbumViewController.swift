@@ -66,26 +66,19 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     func fetchNewPhotos() {
-        let backgroundContext:NSManagedObjectContext! = dataController.backgroundContext
-        
-        backgroundContext.perform {
-            let backgroundPin = backgroundContext.object(with: self.pin.objectID) as! Pin
-            print("FOUND BACKGROUND PIN: \(backgroundPin.objectID)")
-            
-            FlickrAPIClient.getPhotosFromLocation(latitude: backgroundPin.latitude, longitude: backgroundPin.longitude) { response, error in
-                if let response = response {
-                    for flickerPhoto in response.results.photos {
-                        let photo = Photo(context: self.dataController.backgroundContext)
-                        photo.flickrId = flickerPhoto.id
-                        photo.serverId = flickerPhoto.serverId
-                        photo.secret = flickerPhoto.secret
-                        photo.pin = backgroundPin
-                    }
-                    
-                    try? backgroundContext.save()
-                } else {
-                    print("error: \(String(describing: error?.localizedDescription))")
+        FlickrAPIClient.getPhotosFromLocation(latitude: pin.latitude, longitude: pin.longitude) { response, error in
+            if let response = response {
+                for flickerPhoto in response.results.photos {
+                    let photo = Photo(context: self.dataController.viewContext)
+                    photo.flickrId = flickerPhoto.id
+                    photo.serverId = flickerPhoto.serverId
+                    photo.secret = flickerPhoto.secret
+                    photo.pin = self.pin
                 }
+                
+                self.dataController.saveContext(.viewContext)
+            } else {
+                print("error: \(String(describing: error?.localizedDescription))")
             }
         }
     }
@@ -98,16 +91,10 @@ class PhotoAlbumViewController: UIViewController {
         
         return fetchRequest
     }
-}
-
-// MARK: - Toolbar
-
-extension PhotoAlbumViewController {
-
-    @IBAction func newCollectionTapped(_ sender: Any) {
-        deleteAllPhotos()
-        activityIndicator.startAnimating()
-        fetchNewPhotos()
+    
+    func deletePhoto(_ photo: Photo) {
+        dataController.viewContext.delete(photo)
+        try? dataController.viewContext.save()
     }
     
     func deleteAllPhotos() {
@@ -121,6 +108,17 @@ extension PhotoAlbumViewController {
             ]
             NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [dataController.viewContext])
         }
+    }
+}
+
+// MARK: - Toolbar
+
+extension PhotoAlbumViewController {
+
+    @IBAction func newCollectionTapped(_ sender: Any) {
+        deleteAllPhotos()
+        activityIndicator.startAnimating()
+        fetchNewPhotos()
     }
     
 }
@@ -263,10 +261,29 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo: Photo = fetchedResultsController.object(at: indexPath)
+        presentDeletePhoto(photo)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.size.width * 0.3
         let height = width
         
         return CGSize(width: width, height: height)
+    }
+    
+    func presentDeletePhoto(_ photo: Photo) {
+        let alert = UIAlertController(title: "Delete Photo", message: "Are you sure you want to delete this photo?", preferredStyle: .alert)
+
+        // delete actions
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { [weak self] action in
+            self?.deletePhoto(photo)
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true, completion: nil)
     }
 }

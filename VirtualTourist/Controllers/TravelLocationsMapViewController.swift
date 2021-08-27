@@ -18,6 +18,7 @@ class TravelLocationsMapViewController: UIViewController {
     // MARK: Properties
     
     var dataController: DataController!
+    var saveObserverToken: Any?
     var pins: [Pin] = []
     var currentPin: Pin?
     
@@ -27,13 +28,18 @@ class TravelLocationsMapViewController: UIViewController {
         super.viewDidLoad()
         mapView.delegate = self
         
+        setupSaveNotificationObserver()
         setupLongPressGestureRecognizer()
-        loadPinFromCoreData()
+        loadPinsFromCoreData()
+    }
+    
+    deinit {
+        removeSaveNotificationObserver()
     }
     
     // MARK: Loading pins
     
-    func loadPinFromCoreData() {
+    func loadPinsFromCoreData() {
         let fetchRequest:NSFetchRequest<Pin> = Pin.fetchRequest()
         
         do {
@@ -53,7 +59,7 @@ class TravelLocationsMapViewController: UIViewController {
         dataController.saveContext(.viewContext)
     }
     
-    // MARK: Finding pin
+    // MARK: Finding a pin
     
     func findPinFromCoordinate(_ coordinate: CLLocationCoordinate2D) -> Pin? {
         for pin in pins {
@@ -80,7 +86,7 @@ class TravelLocationsMapViewController: UIViewController {
 
 }
 
-// MARK: Map View Helpers
+// MARK: - Map View Helpers
 
 extension TravelLocationsMapViewController {
     
@@ -104,7 +110,7 @@ extension TravelLocationsMapViewController {
 
 }
 
-// MARK: Map View Guestures
+// MARK: - Map View Guestures
 
 extension TravelLocationsMapViewController {
     
@@ -118,12 +124,11 @@ extension TravelLocationsMapViewController {
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
         savePin(coordinate: coordinate)
-        addPinAnnotation(coordinate: coordinate)
     }
     
 }
 
-// MARK: Map View Delegate
+// MARK: - Map View Delegate
 
 extension TravelLocationsMapViewController: MKMapViewDelegate {
     
@@ -144,16 +149,35 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("Pin tapped")
         if let coordinate = view.annotation?.coordinate {
             currentPin = findPinFromCoordinate(coordinate)
+            
             if currentPin != nil {
-                print("pin found")
                 performSegue(withIdentifier: "showPhotoAlbum", sender: self)
-            } else {
-                print("pin not found")
             }
         }
     }
     
+}
+
+// MARK: - CoreData Notifications
+
+extension TravelLocationsMapViewController {
+
+    func setupSaveNotificationObserver() {
+        removeSaveNotificationObserver()
+        saveObserverToken = NotificationCenter.default.addObserver(forName: .NSManagedObjectContextObjectsDidChange, object: dataController?.viewContext, queue: nil, using: handleSaveNotification(notification:))
+    }
+    
+    func removeSaveNotificationObserver() {
+        if let token = saveObserverToken {
+            NotificationCenter.default.removeObserver(token)
+        }
+    }
+    
+    func handleSaveNotification(notification:Notification) {
+        DispatchQueue.main.async {
+            self.loadPinsFromCoreData()
+        }
+    }
 }
