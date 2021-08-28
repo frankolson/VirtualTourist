@@ -22,7 +22,7 @@ class PhotoAlbumViewController: UIViewController {
     var pin: Pin!
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Photo>!
-    private var blockOperation = BlockOperation()
+    private var blockOperations: [BlockOperation] = []
     
     // MARK: Lifecycle events
     
@@ -35,6 +35,14 @@ class PhotoAlbumViewController: UIViewController {
         setupFetchedResultesController()
         setMapAnnotation()
         fetchPhotosIfMissing()
+    }
+    
+    deinit {
+        for blockOperation in blockOperations {
+            blockOperation.cancel()
+        }
+        
+        blockOperations.removeAll(keepingCapacity: false)
     }
     
     // MARK: Helpers
@@ -66,21 +74,31 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     func fetchNewPhotos() {
-        FlickrAPIClient.getPhotosFromLocation(latitude: pin.latitude, longitude: pin.longitude) { response, error in
-            if let response = response {
-                for flickerPhoto in response.results.photos {
-                    let photo = Photo(context: self.dataController.viewContext)
-                    photo.flickrId = flickerPhoto.id
-                    photo.serverId = flickerPhoto.serverId
-                    photo.secret = flickerPhoto.secret
-                    photo.pin = self.pin
+        let backgroundContext = dataController.backgroundContext!
+        
+        backgroundContext.perform {
+            let backgroundPin = backgroundContext.object(with: self.pin.objectID) as? Pin
+            
+            if let backgroundPin = backgroundPin {
+                FlickrAPIClient.getPhotosFromLocation(latitude: backgroundPin.latitude, longitude: backgroundPin.longitude) { response, error in
+                    if let response = response {
+                        for flickerPhoto in response.results.photos {
+                            print("flicker ID: \(flickerPhoto.id), server ID: \(flickerPhoto.serverId), secret: \(flickerPhoto.secret)")
+                            let photo = Photo(context: backgroundContext)
+                            photo.flickrId = flickerPhoto.id
+                            photo.serverId = flickerPhoto.serverId
+                            photo.secret = flickerPhoto.secret
+                            photo.pin = backgroundPin
+                        }
+                        
+                        self.dataController.saveContext(.backgroundContext)
+                    } else {
+                        print("error: \(String(describing: error?.localizedDescription))")
+                    }
                 }
-                
-                self.dataController.saveContext(.viewContext)
-            } else {
-                print("error: \(String(describing: error?.localizedDescription))")
             }
         }
+        
     }
     
     func generatePhotoFetchRequest() -> NSFetchRequest<NSFetchRequestResult> {
@@ -127,26 +145,28 @@ extension PhotoAlbumViewController {
 
 extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        blockOperation = BlockOperation()
-    }
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         let sectionIndexSet = IndexSet(integer: sectionIndex)
         
         switch type {
         case .insert:
-            blockOperation.addExecutionBlock {
-                self.photoCollectionView.insertSections(sectionIndexSet)
-            }
+            blockOperations.append(
+                BlockOperation(block: { [weak self] in
+                    self?.photoCollectionView.insertSections(sectionIndexSet)
+                })
+            )
         case .update:
-            blockOperation.addExecutionBlock {
-                self.photoCollectionView.reloadSections(sectionIndexSet)
-            }
+            blockOperations.append(
+                BlockOperation(block: { [weak self] in
+                    self?.photoCollectionView.reloadSections(sectionIndexSet)
+                })
+            )
         case .delete:
-            blockOperation.addExecutionBlock {
-                self.photoCollectionView.deleteSections(sectionIndexSet)
-            }
+            blockOperations.append(
+                BlockOperation(block: { [weak self] in
+                    self?.photoCollectionView.deleteSections(sectionIndexSet)
+                })
+            )
         case .move:
             assertionFailure()
             break
@@ -160,34 +180,48 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
         case .insert:
             guard let newIndexPath = newIndexPath else { break }
                         
-            blockOperation.addExecutionBlock {
-                self.photoCollectionView.insertItems(at: [newIndexPath])
-            }
+            blockOperations.append(
+                BlockOperation(block: { [weak self] in
+                    self?.photoCollectionView.insertItems(at: [newIndexPath])
+                })
+            )
         case .update:
             guard let indexPath = indexPath else { break }
-                        
-            blockOperation.addExecutionBlock {
-                self.photoCollectionView.reloadItems(at: [indexPath])
-            }
+                
+            blockOperations.append(
+                BlockOperation(block: { [weak self] in
+                    self?.photoCollectionView.reloadItems(at: [indexPath])
+                })
+            )
         case .delete:
             guard let indexPath = indexPath else { break }
-                        
-            blockOperation.addExecutionBlock {
-                self.photoCollectionView.deleteItems(at: [indexPath])
-            }
+                   
+            blockOperations.append(
+                BlockOperation(block: { [weak self] in
+                    self?.photoCollectionView.deleteItems(at: [indexPath])
+                })
+            )
         case .move:
             guard let indexPath = indexPath, let newIndexPath = newIndexPath else { break }
                         
-            blockOperation.addExecutionBlock {
-                self.photoCollectionView.moveItem(at: indexPath, to: newIndexPath)
-            }
+            blockOperations.append(
+                BlockOperation(block: { [weak self] in
+                    self?.photoCollectionView.moveItem(at: indexPath, to: newIndexPath)
+                })
+            )
         default:
             fatalError("Only insert, update, delete, and move collection change actions are supported.")
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        photoCollectionView.performBatchUpdates({self.blockOperation.start()}, completion: nil)
+        photoCollectionView.performBatchUpdates {
+            for blockOperation in self.blockOperations {
+                blockOperation.start()
+            }
+        } completion: { _ in
+            self.blockOperations.removeAll(keepingCapacity: false)
+        }
     }
     
 }
@@ -235,7 +269,6 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let backgroundContext:NSManagedObjectContext! = dataController.backgroundContext
         let photo = fetchedResultsController.object(at: indexPath)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
         
@@ -245,17 +278,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
             cell.activityIndicator.stopAnimating()
         } else {
             cell.activityIndicator.startAnimating()
-            
-            backgroundContext.perform {
-                let backgroundPhoto = backgroundContext.object(with: photo.objectID) as! Photo
-                
-                FlickrAPIClient.downloadPosterImage(serverId: backgroundPhoto.serverId!, id: backgroundPhoto.flickrId!, secret: backgroundPhoto.secret!) { imageData, error in
-                    if let imageData = imageData {
-                        backgroundPhoto.image = imageData
-                        try? backgroundContext.save()
-                    }
-                }
-            }
+            downloadImageAsync(photo: photo)
         }
         
         return cell
@@ -271,6 +294,27 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         let height = width
         
         return CGSize(width: width, height: height)
+    }
+    
+    func downloadImageAsync(photo: Photo) {
+        let backgroundContext = dataController.backgroundContext
+        
+        backgroundContext?.perform {
+            let backgroundPhoto = backgroundContext?.object(with: photo.objectID) as? Photo
+            
+            if let backgroundPhoto = backgroundPhoto,
+               let id = backgroundPhoto.flickrId,
+               let serverId = backgroundPhoto.serverId,
+               let secret = backgroundPhoto.secret {
+                print("Photo background context ~ flicker ID: \(String(describing: backgroundPhoto.flickrId)), server ID: \(String(describing: backgroundPhoto.serverId)), secret: \(String(describing: backgroundPhoto.secret))")
+                FlickrAPIClient.downloadPosterImage(serverId: serverId, id: id, secret: secret) { imageData, error in
+                    if let imageData = imageData {
+                        photo.image = imageData
+                        try? backgroundContext?.save()
+                    }
+                }
+            }
+        }
     }
     
     func presentDeletePhoto(_ photo: Photo) {
