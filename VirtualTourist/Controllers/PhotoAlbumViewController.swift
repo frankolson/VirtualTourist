@@ -83,7 +83,6 @@ class PhotoAlbumViewController: UIViewController {
                 FlickrAPIClient.getPhotosFromLocation(latitude: backgroundPin.latitude, longitude: backgroundPin.longitude) { response, error in
                     if let response = response {
                         for flickerPhoto in response.results.photos {
-                            print("flicker ID: \(flickerPhoto.id), server ID: \(flickerPhoto.serverId), secret: \(flickerPhoto.secret)")
                             let photo = Photo(context: backgroundContext)
                             photo.flickrId = flickerPhoto.id
                             photo.serverId = flickerPhoto.serverId
