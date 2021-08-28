@@ -292,7 +292,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.size.width * 0.3
         let height = width
-        
+
         return CGSize(width: width, height: height)
     }
     
@@ -306,7 +306,6 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
                let id = backgroundPhoto.flickrId,
                let serverId = backgroundPhoto.serverId,
                let secret = backgroundPhoto.secret {
-                print("Photo background context ~ flicker ID: \(String(describing: backgroundPhoto.flickrId)), server ID: \(String(describing: backgroundPhoto.serverId)), secret: \(String(describing: backgroundPhoto.secret))")
                 FlickrAPIClient.downloadPosterImage(serverId: serverId, id: id, secret: secret) { imageData, error in
                     if let imageData = imageData {
                         photo.image = imageData

@@ -10,4 +10,6 @@ import CoreData
 
 extension Photo {
     
+    // something
+
 }
