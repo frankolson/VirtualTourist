@@ -86,7 +86,7 @@ class PhotoAlbumViewController: UIViewController {
                         
                         self.dataController.saveContext(.backgroundContext)
                     } else {
-                        print("error: \(String(describing: error?.localizedDescription))")
+                        debugPrint("error: \(String(describing: error?.localizedDescription))")
                     }
                 }
             }
