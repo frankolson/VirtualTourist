@@ -155,6 +155,7 @@ extension TravelLocationsMapViewController: MKMapViewDelegate {
             currentPin = findPinFromCoordinate(coordinate)
             
             if currentPin != nil {
+                mapView.deselectAnnotation(view.annotation, animated: true)
                 performSegue(withIdentifier: "showPhotoAlbum", sender: self)
             }
         }
