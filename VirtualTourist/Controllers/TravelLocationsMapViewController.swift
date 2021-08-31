@@ -10,19 +10,13 @@ import CoreData
 import MapKit
 
 class TravelLocationsMapViewController: UIViewController {
-
-    // MARK: Outlets
     
     @IBOutlet weak var mapView: MKMapView!
-    
-    // MARK: Properties
     
     var dataController: DataController!
     var saveObserverToken: Any?
     var pins: [Pin] = []
     var currentPin: Pin?
-    
-    // MARK: Lifecycle events
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,16 +44,12 @@ class TravelLocationsMapViewController: UIViewController {
         }
     }
     
-    // MARK: Saving pins
-    
     func savePin(coordinate: CLLocationCoordinate2D) {
         let pin = Pin(context: dataController.viewContext)
         pin.longitude = coordinate.longitude
         pin.latitude = coordinate.latitude
         dataController.saveContext(.viewContext)
     }
-    
-    // MARK: Finding a pin
     
     func findPinFromCoordinate(_ coordinate: CLLocationCoordinate2D) -> Pin? {
         for pin in pins {
@@ -73,8 +63,6 @@ class TravelLocationsMapViewController: UIViewController {
         
         return nil
     }
-    
-    // MARK: Networking
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPhotoAlbum" {

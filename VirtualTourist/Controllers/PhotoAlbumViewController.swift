@@ -11,20 +11,14 @@ import CoreData
 
 class PhotoAlbumViewController: UIViewController {
     
-    // MARK: Outlets
-    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-    // MARK: Attributes
     
     var pin: Pin!
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Photo>!
     private var blockOperations: [BlockOperation] = []
-    
-    // MARK: Lifecycle events
     
     override func viewDidLoad() {
         super.viewDidLoad()
