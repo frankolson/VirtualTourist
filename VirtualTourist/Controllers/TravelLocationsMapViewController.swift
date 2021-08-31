@@ -120,10 +120,12 @@ extension TravelLocationsMapViewController {
     }
     
     @objc func handleLongPress(sender: UILongPressGestureRecognizer) {
-        let location = sender.location(in: mapView)
-        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
-        
-        savePin(coordinate: coordinate)
+        if sender.state == .began {
+            let location = sender.location(in: mapView)
+            let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
+            
+            savePin(coordinate: coordinate)
+        }
     }
     
 }
